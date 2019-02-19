@@ -1,0 +1,78 @@
+\documentclass{standalone}
+
+\usepackage{tikz}
+
+\begin{document}
+\pagestyle{empty}
+
+\def\layersep{2.5cm}
+
+\begin{tikzpicture}[shorten >=1pt,->,draw=black!50, node distance=\layersep]
+    \tikzstyle{every pin edge}=[<-,shorten <=1pt]
+    \tikzstyle{neuron}=[circle,fill=black!25,minimum size=17pt,inner sep=0pt]
+    \tikzstyle{input neuron}=[neuron, fill=green!50];
+    \tikzstyle{output neuron}=[neuron, fill=red!50];
+    \tikzstyle{hidden neuron}=[neuron, fill=blue!50];
+    \tikzstyle{bias neuron}=[neuron, fill=yellow!50];
+    \tikzstyle{annot} = [text width=4em, text centered]
+
+	\def\inputs{4};
+	\def\hidden{5};
+	\def\layers{5};
+	
+    % Draw the input layer nodes
+    \foreach \name / \y in {1,...,\inputs}
+		\node[input neuron] (I-\name) at (0,-\y) {};
+
+    % Draw the hidden layers nodes Level 1
+    \foreach \layer in {1,...,\layers} {
+    	
+	    \foreach \name / \y in {1,...,\hidden}
+	        \path[yshift=0.5cm]
+	            node[hidden neuron] (H\layer-\name) at (\layer*\layersep,-\y cm) {};
+	            
+	     
+	     \node[annot,above of=H\layer-1, node distance=1cm] (hl-\layer) {Hidden Layer \layer};
+	            
+	     % Draw the Bias	     
+	     \node[bias neuron, below of=H\layer-\hidden, xshift=-0.75*\layersep,yshift=1.5cm] (B-\layer) {};
+	     
+	     \foreach \dest in {1,...,\hidden}
+	     \path (B-\layer) edge (H\layer-\dest);
+	 };    
+            
+    
+   
+
+    % Draw the output layer node
+    %\node[output neuron,pin={[pin edge={->}]right:Output}, right of=H-3] (O) {};
+    \node[output neuron, right of=I-2, yshift=-0.5cm,xshift=\layers*\layersep] (O) {};
+
+    % Connect every node in the input layer with every node in the
+    % hidden layer.
+    \foreach \source in {1,...,\inputs}
+        \foreach \dest in {1,...,\hidden}
+            \path (I-\source) edge (H1-\dest);
+            
+    % Connect the hidden layers
+    \foreach \layer[remember=\layer as \lastlayer (initially 1)] in {2,...,\layers} {
+    	\foreach \source in {1,...,\hidden}
+    		\foreach \dest in {1,...,\hidden}
+    	 		\path (H\lastlayer-\source) edge (H\layer-\dest);
+    };
+
+    % Connect the last hidden layer with the output layer
+    \foreach \source in {1,...,\hidden}
+        \path (H\layers-\source) edge (O);
+
+    % Annotate the layers
+    \node[annot,left of=hl-1] {Input Layer};
+    \node[annot,right of=hl-\layers] {Output Layer};
+    
+    	
+    	\node[bias neuron, below of=H\layers-\hidden, xshift=-0.75*\layersep + \layersep, yshift=1.5cm] (BO) {};
+	\path (BO) edge (O);
+    
+\end{tikzpicture}
+% End of code
+\end{document}

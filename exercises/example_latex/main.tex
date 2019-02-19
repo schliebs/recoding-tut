@@ -1,0 +1,84 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{hyperref} % highlights the references
+\usepackage{booktabs}
+\usepackage{graphicx}
+
+% for citations
+\usepackage[style=authoryear]{biblatex}
+\addbibresource{example_bib.bib}
+
+\title{An Example \LaTeX\ Project}
+\author{Ebenezer Scrooge\thanks{University of Southern Antarctica}}
+\date{Version: \today}
+
+\begin{document}
+	\maketitle
+	
+	\begin{abstract}
+		This is a rather long, yet nonetheless void-of-meaningfulness text, that rather beautifully fulfills its purpose as to divert the readers attention from more pressing issues such as actually writing stuff and not reading this piece of nonsense.
+	\end{abstract}
+
+	\tableofcontents
+	\listoffigures
+	\listoftables
+	\newpage
+
+\section{Introduction}
+	
+	As \textcite{Friedman2001} showed, data can be actually used. If the author of this written document want to use the parenthesis form of citation, you are in luck, this works as well \parencite{Friedman2001a}.
+	
+	If you want to get more into algo stuff, make sure to check out the book by \citeauthor{Gareth2013} which, properly cited, is displayed as \textcite{Gareth2013}.
+	
+	Always make sure your text is properly escaped like this \_ 100\%, 20\&.
+	
+\section{Tables}
+	
+	A table is a float, thus it might be moved somewhere else (especially if we have as little text as we currently have), but we can always reference a table using \verb|\autoref{KEY}| which results in \autoref{tab:first_table}.
+	
+	\begin{table}
+		\caption{My First Table}
+		\label{tab:first_table}
+		\centering
+		{\scriptsize This can be a paragraph describing the table.\par}
+		\begin{tabular}{lcr}
+			\hline 
+			Name & Dir & Sales \\
+			\hline
+			Alice & C & \$12,000\\
+			Bob & R & \$17,000\\
+			\hline
+		\end{tabular}
+	\end{table}
+
+	Or we can also reference a second table using \autoref{tab:input_table}.
+	
+	\begin{table}
+		\caption{A second Table using input}
+		\label{tab:input_table}
+		\centering
+		{\scriptsize This can be a paragraph describing the table.\par}
+		\input{tables/input_table_example.tex}
+	\end{table}
+
+\section{Pictures}
+
+	We can can address figures/pictures using autoref as well which results in \autoref{fig:homer}.
+	
+	\begin{figure}
+		\centering
+		\includegraphics[width=0.5\textwidth]{pictures/homer.png} \\
+		\caption{Wonderful Homer}
+		\label{fig:homer}
+		\small Some more information if necessary.
+	\end{figure}
+	
+	
+	\newpage
+	
+	\printbibliography
+	
+\end{document}
